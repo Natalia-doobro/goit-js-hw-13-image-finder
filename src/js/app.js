@@ -38,10 +38,10 @@ function onValueInput(evt) {
 }
 
 function fetchPhotoData(data) {
-    btnmore.setAttribute("style", "display: block;");
     const object = data.hits;
     const markup = object.map(sampleGallery).join('');
     containerGallery.insertAdjacentHTML('beforeend', markup); 
+    btnmore.setAttribute("style", "display: block;");
 }
 function onValueError(er) {
     btnmore.setAttribute("style", "display: none;");
