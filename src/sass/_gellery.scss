@@ -1,8 +1,10 @@
 .container {
-  width: 95%;
+  max-width: 95%;
   margin: 30px auto 30px;
 }
 .col {
+  display: flex;
+  flex-wrap: wrap;
   @media screen and (min-width: 1201px) {
     column-count: 5;
     column-gap: 20px;
@@ -37,7 +39,7 @@
 
 .gallery__item {
   display: inline-block;
-  width: 100%;
+  max-width: 23%;
   margin-bottom: 20px;
   padding: 20px 10px 30px;
   background-color: #131416;
