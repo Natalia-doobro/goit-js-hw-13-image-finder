@@ -28,6 +28,8 @@
     "sass": "^1.32.8"
   },
   "dependencies": {
-    "basiclightbox": "^5.0.4"
+    "axios": "^0.21.4",
+    "basiclightbox": "^5.0.4",
+    "masonry-layout": "^4.2.2"
   }
 }

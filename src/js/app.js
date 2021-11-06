@@ -1,9 +1,13 @@
 import sampleGallery from '../templates/gallery.hbs';
 import API from './apiService.js';
 import { alert, notice, info, success, error } from '@pnotify/core';
-import '@pnotify/core/dist/BrightTheme.css'
+import '@pnotify/core/dist/BrightTheme.css';
+import * as basicLightbox from 'basiclightbox';
+import '../../node_modules/basiclightbox/dist/basicLightbox.min.css';
+
 
 const containerGallery = document.querySelector('.gallery');
+const listGallery = document.querySelector('.js-gallery');
 const valueInput = document.querySelector('.input');
 const btnclear = document.querySelector('.button-clear');
 const btnsearch = document.querySelector('.button-search');
@@ -27,29 +31,45 @@ let page = 1;
 //-----------------------------------------------начальная версия запроса----------------------------------------------------------------------------
 function onValueInput(evt) {
     evt.preventDefault();
-   
+    if (valueInput.value === "") {
+        info({
+            title: 'Warning!',
+            text: 'Enter your request!',
+        });
+        return;
+    }
+    
     if (valueInput.value !== "") {
         btnsearch.setAttribute('disabled', true);
         
         API.fetchPhotoAPI(valueInput.value , page)
         .then(fetchPhotoData)
-        .catch(onValueError);
-    } 
+        .catch(error => {
+            error({
+                title: 'Oh No!',
+                text: 'Something went wrong . There is no such country!',
+            });
+        });
+    }
+    
 }
 
 function fetchPhotoData(data) {
+    if (data.hits.length === 0) {
+        notice({
+            title: 'Oh No!',
+            text: 'Request not found!',
+        });
+        return;
+    }
     const object = data.hits;
     const markup = object.map(sampleGallery).join('');
     containerGallery.insertAdjacentHTML('beforeend', markup); 
     btnmore.setAttribute("style", "display: block;");
 }
+
 function onValueError(er) {
     btnmore.setAttribute("style", "display: none;");
-
-    error({
-        title: 'Oh No!',
-        text: 'Something went wrong . Try to enter more correct data.',
-    });
 }
 
 
@@ -79,6 +99,17 @@ function scrollLoadMore() {
     
 }
 
+function openBasicLightBox(evt) {
+    evt.preventDefault();
+
+    if (evt.target.nodeName !== 'IMG') { return;}
+    
+    const instance = basicLightbox.create(`<img src=${evt.target.dataset.source} alt=${evt.target.alt}>`);
+    instance.show();
+}
+
+
+listGallery.addEventListener('click', openBasicLightBox);
 
 btnsearch.addEventListener('click', onValueInput);
 btnclear.addEventListener('click', onValueClear);
