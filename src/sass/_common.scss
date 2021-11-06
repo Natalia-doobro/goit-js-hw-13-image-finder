@@ -24,7 +24,7 @@ body {
   padding-left: 10px;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
-  border-radius: 5px;
+  border-radius: 10px;
 
   &::-webkit-input-placeholder {
     color: #a02110;
@@ -66,6 +66,7 @@ body {
   height: 50px;
 
   line-height: 1.13;
+  border-radius: 10px;
   border: none;
   background: rgb(255, 145, 0);
   color: #bd4c02;
